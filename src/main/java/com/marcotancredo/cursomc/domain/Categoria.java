@@ -1,14 +1,21 @@
 package com.marcotancredo.cursomc.domain;
 
+import jakarta.persistence.*;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
 public class Categoria implements Serializable {
     @Serial
     private static final long serialVersionUID = -2192810627412326786L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "nome_completo", nullable = false)
     private String nome;
 
     public Categoria() {
