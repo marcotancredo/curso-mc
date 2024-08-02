@@ -1,6 +1,7 @@
 package com.marcotancredo.cursomc.services;
 
 import com.marcotancredo.cursomc.domain.Categoria;
+import com.marcotancredo.cursomc.exceptions.ObjectNotFoundException;
 import com.marcotancredo.cursomc.repositories.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,6 @@ public class CategoriaService {
     public Categoria buscar(Long id) {
         Optional<Categoria> retorno = repository.findById(id);
 
-        return retorno.orElse(null);
+        return retorno.orElseThrow(() -> new ObjectNotFoundException(id, Categoria.class));
     }
 }
