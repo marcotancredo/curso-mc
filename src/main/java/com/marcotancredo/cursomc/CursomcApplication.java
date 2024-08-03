@@ -1,8 +1,12 @@
 package com.marcotancredo.cursomc;
 
 import com.marcotancredo.cursomc.domain.Categoria;
+import com.marcotancredo.cursomc.domain.Cidade;
+import com.marcotancredo.cursomc.domain.Estado;
 import com.marcotancredo.cursomc.domain.Produto;
 import com.marcotancredo.cursomc.repositories.CategoriaRepository;
+import com.marcotancredo.cursomc.repositories.CidadeRepository;
+import com.marcotancredo.cursomc.repositories.EstadoRepository;
 import com.marcotancredo.cursomc.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,9 +21,12 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	@Autowired
+	private CidadeRepository cidadeRepository;
+	@Autowired
+	private EstadoRepository estadoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -43,5 +50,18 @@ public class CursomcApplication implements CommandLineRunner {
 
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(prod1, prod2, prod3));
+
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "São Paulo");
+
+		Cidade cid1 = new Cidade(null, "Uberlândia", est1);
+		Cidade cid2 = new Cidade(null, "São Paulo", est2);
+		Cidade cid3 = new Cidade(null, "Campinhas", est2);
+
+		est1.getCidades().add(cid1);
+		est2.getCidades().addAll(Arrays.asList(cid2, cid3));
+
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
 	}
 }

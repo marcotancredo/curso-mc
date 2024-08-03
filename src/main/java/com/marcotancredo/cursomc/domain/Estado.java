@@ -1,6 +1,5 @@
 package com.marcotancredo.cursomc.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -10,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Categoria implements Serializable {
+public class Estado implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -21,14 +20,13 @@ public class Categoria implements Serializable {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @ManyToMany(mappedBy = "categorias")
-    @JsonManagedReference
-    private List<Produto> produtos = new ArrayList<>();
+    @OneToMany(mappedBy = "estado")
+    private List<Cidade> cidades = new ArrayList<>();
 
-    public Categoria() {
+    public Estado() {
     }
 
-    public Categoria(Long id, String nome) {
+    public Estado(Long id, String nome) {
         this.id = id;
         this.nome = nome;
     }
@@ -49,19 +47,19 @@ public class Categoria implements Serializable {
         this.nome = nome;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public List<Cidade> getCidades() {
+        return cidades;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setCidades(List<Cidade> cidades) {
+        this.cidades = cidades;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Categoria categoria = (Categoria) o;
+        Estado categoria = (Estado) o;
         return Objects.equals(id, categoria.id);
     }
 
