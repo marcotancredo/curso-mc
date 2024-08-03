@@ -62,7 +62,7 @@ public class Cidade implements Serializable {
 
     @Override
     public String toString() {
-        return "Categoria{" +
+        return "Cidade{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 '}';

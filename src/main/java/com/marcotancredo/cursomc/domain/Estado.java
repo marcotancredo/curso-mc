@@ -70,7 +70,7 @@ public class Estado implements Serializable {
 
     @Override
     public String toString() {
-        return "Categoria{" +
+        return "Estado{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 '}';
