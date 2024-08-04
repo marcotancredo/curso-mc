@@ -3,6 +3,7 @@ package com.marcotancredo.cursomc.resources;
 import com.marcotancredo.cursomc.domain.Categoria;
 import com.marcotancredo.cursomc.dto.CategoriaDTO;
 import com.marcotancredo.cursomc.services.CategoriaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -27,14 +28,16 @@ public class CategoriaResource {
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> insert(@RequestBody Categoria obj) {
-        obj = service.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).body(obj);
+    public ResponseEntity<Categoria> insert(@Valid @RequestBody CategoriaDTO obj) {
+        Categoria categoria = service.fromDTO(obj);
+        categoria = service.insert(categoria);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
+        return ResponseEntity.created(uri).body(categoria);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Categoria> update(@PathVariable(value = "id") Long id, @RequestBody Categoria obj) {
+    public ResponseEntity<Categoria> update(@PathVariable(value = "id") Long id, @Valid @RequestBody CategoriaDTO objDTO) {
+        Categoria obj = service.fromDTO(objDTO);
         obj.setId(id);
         service.update(obj);
         return ResponseEntity.noContent().build();
