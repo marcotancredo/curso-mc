@@ -1,7 +1,6 @@
 package com.marcotancredo.cursomc.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -34,7 +33,7 @@ public class Endereco implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="cliente_id")
-    @JsonBackReference
+    @JsonIgnore
     private Cliente cliente;
 
     @ManyToOne
