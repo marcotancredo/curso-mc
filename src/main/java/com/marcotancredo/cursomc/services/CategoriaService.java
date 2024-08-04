@@ -19,4 +19,8 @@ public class CategoriaService {
 
         return retorno.orElseThrow(() -> new ObjectNotFoundException(id, Categoria.class));
     }
+
+    public Categoria insert(Categoria obj) {
+        return repository.save(obj);
+    }
 }
