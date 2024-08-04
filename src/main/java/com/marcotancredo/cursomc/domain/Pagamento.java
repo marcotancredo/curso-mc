@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -17,7 +18,7 @@ public abstract class Pagamento implements Serializable {
     @Id
     private Long id;
 
-    @Column(name = "estado", nullable = false)
+    @Column(name = "estado")
     private Integer estado;
 
     @JsonIgnore
@@ -31,7 +32,7 @@ public abstract class Pagamento implements Serializable {
 
     public Pagamento(Long id, EstadoPagamento estado, Pedido pedido) {
         this.id = id;
-        this.estado = estado.getCod();
+        this.estado = Optional.ofNullable(estado).map(EstadoPagamento::getCod).orElse(null);
         this.pedido = pedido;
     }
 
