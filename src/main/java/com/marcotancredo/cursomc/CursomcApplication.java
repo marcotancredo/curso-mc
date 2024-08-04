@@ -32,6 +32,8 @@ public class CursomcApplication implements CommandLineRunner {
 	private PagamentoRepository pagamentoRepository;
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -94,5 +96,18 @@ public class CursomcApplication implements CommandLineRunner {
 
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2));
+
+		ItemPedido itemPed1 = new ItemPedido(ped1, prod1, 0.00, 1, 2000.00);
+		ItemPedido itemPed2 = new ItemPedido(ped1, prod3, 0.00, 2, 80.00);
+		ItemPedido itemPed3 = new ItemPedido(ped2, prod2, 0.00, 1, 800.00);
+
+		ped1.getItens().addAll(Arrays.asList(itemPed1, itemPed2));
+		ped2.getItens().add(itemPed3);
+
+		prod1.getItens().add(itemPed1);
+		prod2.getItens().add(itemPed3);
+		prod3.getItens().add(itemPed2);
+
+		itemPedidoRepository.saveAll(Arrays.asList(itemPed1, itemPed2, itemPed3));
 	}
 }
