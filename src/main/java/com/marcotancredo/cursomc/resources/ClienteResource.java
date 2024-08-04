@@ -1,8 +1,6 @@
 package com.marcotancredo.cursomc.resources;
 
-import com.marcotancredo.cursomc.domain.Categoria;
 import com.marcotancredo.cursomc.domain.Cliente;
-import com.marcotancredo.cursomc.services.CategoriaService;
 import com.marcotancredo.cursomc.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
