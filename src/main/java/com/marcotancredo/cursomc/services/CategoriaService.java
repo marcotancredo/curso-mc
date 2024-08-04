@@ -1,9 +1,11 @@
 package com.marcotancredo.cursomc.services;
 
 import com.marcotancredo.cursomc.domain.Categoria;
-import com.marcotancredo.cursomc.exceptions.ObjectNotFoundException;
 import com.marcotancredo.cursomc.repositories.CategoriaRepository;
+import com.marcotancredo.cursomc.services.exceptions.DataIntegrityException;
+import com.marcotancredo.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,8 +26,18 @@ public class CategoriaService {
         return repository.save(obj);
     }
 
-    public Categoria update(Categoria obj) {
+    public void update(Categoria obj) {
         find(obj.getId());
-        return insert(obj);
+        insert(obj);
+    }
+
+    public void delete(Long id) {
+        find(id);
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
+        }
+
     }
 }

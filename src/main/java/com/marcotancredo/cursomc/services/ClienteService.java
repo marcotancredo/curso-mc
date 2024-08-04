@@ -1,8 +1,8 @@
 package com.marcotancredo.cursomc.services;
 
 import com.marcotancredo.cursomc.domain.Cliente;
-import com.marcotancredo.cursomc.exceptions.ObjectNotFoundException;
 import com.marcotancredo.cursomc.repositories.ClienteRepository;
+import com.marcotancredo.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.marcotancredo.cursomc.exceptions;
+package com.marcotancredo.cursomc.services.exceptions;
 
 import java.io.Serial;
 
