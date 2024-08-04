@@ -23,10 +23,10 @@ public class Cliente implements Serializable {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "cpf_cnpj", nullable = false)
+    @Column(name = "cpf_cnpj")
     private String cpfCnpj;
 
-    @Column(name = "tipo", nullable = false)
+    @Column(name = "tipo")
     private Integer tipo;
 
     @OneToMany(mappedBy = "cliente")
@@ -48,7 +48,7 @@ public class Cliente implements Serializable {
         this.nome = nome;
         this.email = email;
         this.cpfCnpj = cpfCnpj;
-        this.tipo = tipo.getCod();
+        this.tipo = Optional.ofNullable(tipo).map(TipoCliente::getCod).orElse(null);
     }
 
     public Long getId() {

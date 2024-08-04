@@ -28,11 +28,11 @@ public class CategoriaResource {
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> insert(@Valid @RequestBody CategoriaDTO obj) {
-        Categoria categoria = service.fromDTO(obj);
-        categoria = service.insert(categoria);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
-        return ResponseEntity.created(uri).body(categoria);
+    public ResponseEntity<Categoria> insert(@Valid @RequestBody CategoriaDTO objDTO) {
+        Categoria obj = service.fromDTO(objDTO);
+        obj = service.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).body(obj);
     }
 
     @PutMapping("/{id}")
@@ -51,8 +51,8 @@ public class CategoriaResource {
 
     @GetMapping
     public ResponseEntity<List<CategoriaDTO>> findAll() {
-        List<Categoria> categorias = service.findAll();
-        List<CategoriaDTO> retornoCategorias = categorias.stream().map(CategoriaDTO::new).collect(Collectors.toList());
+        List<Categoria> list = service.findAll();
+        List<CategoriaDTO> retornoCategorias = list.stream().map(CategoriaDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(retornoCategorias);
     }
 
