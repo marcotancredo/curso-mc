@@ -1,6 +1,7 @@
 package com.marcotancredo.cursomc.dto;
 
 import com.marcotancredo.cursomc.domain.Cliente;
+import com.marcotancredo.cursomc.services.validation.ClienteUpdate;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
@@ -8,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import java.io.Serial;
 import java.io.Serializable;
 
+@ClienteUpdate
 public class ClienteDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
