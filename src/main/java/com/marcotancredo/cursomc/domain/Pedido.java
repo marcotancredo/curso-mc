@@ -5,10 +5,9 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Entity
 public class Pedido implements Serializable {
@@ -116,12 +115,21 @@ public class Pedido implements Serializable {
 
     @Override
     public String toString() {
-        return "Pedido{" +
-                "id=" + id +
-                ", instante=" + instante +
-                ", pagamento=" + pagamento +
-                ", cliente=" + cliente +
-                ", enderecoEntrega=" + enderecoEntrega +
-                '}';
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        StringBuilder builder = new StringBuilder();
+        builder.append("Pedido número: ");
+        builder.append(getId());
+        builder.append(", Instante: ");
+        builder.append(sf.format(getInstante()));
+        builder.append(", Cliente:");
+        builder.append(getCliente().getNome());
+        builder.append(", Situação do pagamento: ");
+        builder.append(getPagamento().getEstado().getDescricao());
+        builder.append("\nDetalhes:\n");
+        getItens().forEach(item -> builder.append(item.toString()));
+        builder.append("Valor total: ");
+        builder.append(nf.format(getValorTotal()));
+        return builder.toString();
     }
 }

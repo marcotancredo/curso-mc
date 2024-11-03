@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 @Entity
@@ -102,5 +104,18 @@ public class ItemPedido implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        return getProduto().getNome() +
+                ", Qte: " +
+                getQuantidade() +
+                ", Preço unitário: " +
+                nf.format(getPreco()) +
+                ", Subtotal: " +
+                nf.format(getSubTotal()) +
+                "\n";
     }
 }

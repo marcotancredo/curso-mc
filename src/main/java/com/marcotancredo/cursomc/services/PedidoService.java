@@ -7,7 +7,6 @@ import com.marcotancredo.cursomc.domain.enums.EstadoPagamento;
 import com.marcotancredo.cursomc.repositories.ItemPedidoRepository;
 import com.marcotancredo.cursomc.repositories.PagamentoRepository;
 import com.marcotancredo.cursomc.repositories.PedidoRepository;
-import com.marcotancredo.cursomc.repositories.ProdutoRepository;
 import com.marcotancredo.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,17 +19,16 @@ public class PedidoService {
 
     @Autowired
     private PedidoRepository repository;
-
     @Autowired
     private BoletoService boletoService;
-
     @Autowired
     private PagamentoRepository pagamentoRepository;
-
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private ProdutoService produtoService;
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
+    @Autowired
+    private ClienteService clienteService;
 
     public Pedido find(Long id) {
         Optional<Pedido> retorno = repository.findById(id);
@@ -41,6 +39,7 @@ public class PedidoService {
     public Pedido insert(Pedido obj) {
         obj.setId(null);
         obj.setInstante(new Date());
+        obj.setCliente(clienteService.find(obj.getCliente().getId()));
         obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
         obj.getPagamento().setPedido(obj);
         if (obj.getPagamento() instanceof PagamentoComBoleto pagto) {
@@ -52,11 +51,12 @@ public class PedidoService {
         Pedido finalObj = obj;
         obj.getItens().stream().peek(item -> {
             item.setDesconto(0.0);
-            Double preco = produtoRepository.findById(item.getProduto().getId()).map(Produto::getPreco).orElse(0.0);
-            item.setPreco(preco);
+            Produto produto = produtoService.find(item.getProduto().getId());
+            item.setProduto(produto);
+            item.setPreco(produto.getPreco());
             item.setPedido(finalObj);
         }).forEach(itemPedidoRepository::save);
-
+        System.out.println(obj);
         return obj;
     }
 }
