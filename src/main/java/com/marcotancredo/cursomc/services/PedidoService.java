@@ -29,6 +29,8 @@ public class PedidoService {
     private ItemPedidoRepository itemPedidoRepository;
     @Autowired
     private ClienteService clienteService;
+    @Autowired
+    private EmailService emailService;
 
     public Pedido find(Long id) {
         Optional<Pedido> retorno = repository.findById(id);
@@ -56,7 +58,9 @@ public class PedidoService {
             item.setPreco(produto.getPreco());
             item.setPedido(finalObj);
         }).forEach(itemPedidoRepository::save);
-        System.out.println(obj);
+
+        emailService.sendOrderConfirmationEmail(obj);
+
         return obj;
     }
 }
