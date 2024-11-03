@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,10 +28,12 @@ public class CategoriaService {
         return retorno.orElseThrow(() -> new ObjectNotFoundException(id, Categoria.class));
     }
 
+    @Transactional
     public Categoria insert(Categoria obj) {
         return repository.save(obj);
     }
 
+    @Transactional
     public void update(Categoria obj) {
         Categoria newObj = find(obj.getId());
         updateData(newObj, obj);

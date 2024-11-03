@@ -1,6 +1,7 @@
 package com.marcotancredo.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.marcotancredo.cursomc.domain.enums.EstadoPagamento;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +9,7 @@ import jakarta.persistence.Entity;
 import java.util.Date;
 
 @Entity
+@JsonTypeName("pagamentoComBoleto")
 public class PagamentoComBoleto extends Pagamento {
 
     @Column(name = "data_vencimento")

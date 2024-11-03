@@ -1,6 +1,7 @@
 package com.marcotancredo.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.marcotancredo.cursomc.domain.enums.EstadoPagamento;
 import jakarta.persistence.*;
 
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "@type")
 public abstract class Pagamento implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
