@@ -59,7 +59,7 @@ public class PedidoService {
             item.setPedido(finalObj);
         }).forEach(itemPedidoRepository::save);
 
-        emailService.sendOrderConfirmationEmail(obj);
+        emailService.sendOrderConfirmationHtmlEmail(obj);
 
         return obj;
     }
