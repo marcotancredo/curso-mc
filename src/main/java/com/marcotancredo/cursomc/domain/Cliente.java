@@ -40,15 +40,19 @@ public class Cliente implements Serializable {
     @JsonIgnore
     private List<Pedido> pedidos = new ArrayList<>();
 
+    @JsonIgnore
+    private String senha;
+
     public Cliente() {
     }
 
-    public Cliente(Long id, String nome, String email, String cpfCnpj, TipoCliente tipo) {
+    public Cliente(Long id, String nome, String email, String cpfCnpj, TipoCliente tipo, String senha) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpfCnpj = cpfCnpj;
         this.tipo = Optional.ofNullable(tipo).map(TipoCliente::getCod).orElse(null);
+        this.senha = senha;
     }
 
     public Long getId() {
@@ -113,6 +117,14 @@ public class Cliente implements Serializable {
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     @Override
