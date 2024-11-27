@@ -1,12 +1,14 @@
 package com.marcotancredo.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.marcotancredo.cursomc.domain.enums.Perfil;
 import com.marcotancredo.cursomc.domain.enums.TipoCliente;
 import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Cliente implements Serializable {
@@ -43,7 +45,12 @@ public class Cliente implements Serializable {
     @JsonIgnore
     private String senha;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name="perfis")
+    private Set<Integer> perfis = new HashSet<>();
+
     public Cliente() {
+        addPerfil(Perfil.CLIENTE);
     }
 
     public Cliente(Long id, String nome, String email, String cpfCnpj, TipoCliente tipo, String senha) {
@@ -53,6 +60,7 @@ public class Cliente implements Serializable {
         this.cpfCnpj = cpfCnpj;
         this.tipo = Optional.ofNullable(tipo).map(TipoCliente::getCod).orElse(null);
         this.senha = senha;
+        addPerfil(Perfil.CLIENTE);
     }
 
     public Long getId() {
@@ -125,6 +133,14 @@ public class Cliente implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Set<Perfil> getPerfis() {
+        return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
+    }
+
+    public void addPerfil(Perfil perfil) {
+        this.perfis.add(perfil.getCod());
     }
 
     @Override
