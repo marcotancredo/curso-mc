@@ -5,3 +5,7 @@ spring:
 default:
   sender: marcotancredo@gmail.com
   recipient: marcotancredo@gmail.com
+
+jwt:
+  secret: SequenciaDeCaracteresParaAssinarToken
+  expiration: 60000
