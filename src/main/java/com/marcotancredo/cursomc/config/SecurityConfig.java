@@ -1,6 +1,7 @@
 package com.marcotancredo.cursomc.config;
 
 import com.marcotancredo.cursomc.security.JWTAuthenticationFilter;
+import com.marcotancredo.cursomc.security.JWTAuthorizationFilter;
 import com.marcotancredo.cursomc.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -50,25 +51,6 @@ public class SecurityConfig {
             "/clientes/**"
     };
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
-//        if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
-//            http.headers(conf -> conf.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
-//        }
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .cors(withDefaults())
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authorizeHttpRequests((authz) -> authz
-//                        .requestMatchers(PUBLIC_MATCHERS).permitAll()
-//                        .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .addFilter(new JWTAuthenticationFilter(authenticationManager, jwtUtil))
-//                .httpBasic(withDefaults());
-//        return http.build();
-//    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
         if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
@@ -83,7 +65,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilter(new JWTAuthenticationFilter(authenticationManager, jwtUtil)) // Pass authenticationManager here
+                .addFilter(new JWTAuthenticationFilter(authenticationManager, jwtUtil))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager, jwtUtil, userDetailsService))
                 .httpBasic(withDefaults());
         return http.build();
     }
