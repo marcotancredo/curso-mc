@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -30,6 +31,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Autowired
@@ -47,7 +49,10 @@ public class SecurityConfig {
 
     private static final String[] PUBLIC_MATCHERS_GET = {
             "/produtos/**",
-            "/categorias/**",
+            "/categorias/**"
+    };
+
+    private static final String[] PUBLIC_MATCHERS_POST = {
             "/clientes/**"
     };
 
@@ -63,6 +68,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(PUBLIC_MATCHERS).permitAll()
                         .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
+                        .requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilter(new JWTAuthenticationFilter(authenticationManager, jwtUtil))
