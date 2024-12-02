@@ -4,6 +4,7 @@ import com.marcotancredo.cursomc.domain.Pedido;
 import com.marcotancredo.cursomc.services.PedidoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,5 +29,14 @@ public class PedidoResource {
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<Pedido>> findPage(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                                       @RequestParam(value = "lines", required = false, defaultValue = "24") Integer linesPerPage,
+                                                       @RequestParam(value = "orderBy", required = false, defaultValue = "instante") String orderBy,
+                                                       @RequestParam(value = "direction", required = false, defaultValue = "DESC") String direction) {
+        Page<Pedido> listaPaginada = service.findPage(page, linesPerPage, orderBy, direction);
+        return ResponseEntity.ok().body(listaPaginada);
     }
 }
